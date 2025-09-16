@@ -117,6 +117,9 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=10, log_dir=
             
             # Log batch loss to TensorBoard
             writer.add_scalar('Batch/Loss', loss.item(), global_step)
+            # Collect outputs and targets for AUC calculation
+            all_targets.extend(target.cpu().numpy())
+            all_outputs.extend(output.squeeze().detach().cpu().numpy())
             if batch_idx % 4 == 0:
                 # pass
                 print(f'Epoch {epoch+1}/{num_epochs}, Batch {batch_idx}, Loss: {loss.item():.4f}')
